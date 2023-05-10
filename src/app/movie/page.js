@@ -1,4 +1,9 @@
+import MovieCard from "../components/MovieCard";
+import styles from "@/app/styles/common.module.css"
+
 const page = async () => {
+
+  await new Promise(resolve => setTimeout(resolve, 2000))
 
   const url = process.env.RAPID_URL;
   const options = {
@@ -11,11 +16,24 @@ const page = async () => {
 
   const res = await fetch(url, options)
   const data = await res.json()
+  const main_data = data.titles;
   console.log(data);
 
   return (
     <>
-      <h1>Hello from movie</h1>
+      <section className={styles.movieSection}>
+        <div className={styles.container}>
+          <h1>Movies & Series</h1>
+          <div className={styles.card_section}>
+            {
+              main_data.map((currEle) => {
+                return <MovieCard key={currEle.id} {...currEle} />
+              })
+            }
+          </div>
+        </div>
+      </section>
+
     </>
   );
 };
